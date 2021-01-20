@@ -1,5 +1,7 @@
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import Login from './components/Login';
 import FriendsList from './components/FriendsList';
+import PrivateRoute from "./components/PrivateRoute";
 import './App.css';
 
 import axios from 'axios';
@@ -10,27 +12,29 @@ function App() {
   }
 
   return (
-    <div className = "App">
+    
       <Router>
-      <ul>
-        <li>
-          <Link to ="/login">Login</Link>
+      <ul >
+        <li >
+          <Link  to ="/login" className="header_nav">Login</Link>
         </li>
         <li>
-        <Link onClick={logout}>Logout</Link>
+          <Link to ="/protected" className="header_nav">Protected Page</Link>
         </li>
-        <li>
-          <Link to ="/protected">Protected Page</Link>
-        </li>
-      </ul>
+          </ul>
+      
+
+  
 
       <Switch>
-        <Route exact path = "/protected" component = {FriendsList}/>
+        <PrivateRoute exact path = "/protected">
+          <FriendsList foo="bar" firstName="Kendra"/>
+          </PrivateRoute> 
         <Route path = "/login" component={Login}/>
         <Route component = {Login}/>
       </Switch>
 </Router>
-    </div>
+    
   );
 }
 

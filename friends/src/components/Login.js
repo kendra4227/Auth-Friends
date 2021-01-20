@@ -4,10 +4,11 @@ class login extends React.Component {
     state ={
         credentials:{
             username:"",
-            password:""
+            password:"",
+        
         }
 }
-};
+
 
 handleChange = e =>{
     this.setState({
@@ -18,10 +19,21 @@ handleChange = e =>{
     });
 };
 
-login =e => {
+login = (e) => {
     e.preventDefault();
-}
-render (){
+//  hit the login API endpoint with the  username and password in the request body
+axios.post("http://localhost:5000/api/login", this.state.credentials)
+.then(res=> { 
+    console.log(res)
+    localStorage.setItem("token", res.data.payload); 
+})
+//happy path: store the token from the response as a localStorage item called "token"
+.catch(err => console.log(err));
+//sad path: just log it for now 
+
+};
+
+render() {
 return(
     <div className = "form">
         <form onSubmit ={this.login}>
@@ -40,5 +52,8 @@ return(
             <button>Log In</button>
         </form>
     </div>
-)
+);
 }
+}
+
+export default login;
